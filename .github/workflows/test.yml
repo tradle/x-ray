@@ -9,12 +9,6 @@ jobs:
       matrix:
         include:
           - os: ubuntu-latest
-            node-version: 6
-          - os: ubuntu-latest
-            node-version: 8
-          - os: windows-latest
-            node-version: 9
-          - os: ubuntu-latest
             node-version: 10
           - os: ubuntu-latest
             node-version: 12
