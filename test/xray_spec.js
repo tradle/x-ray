@@ -34,7 +34,7 @@ describe('Xray basics', function () {
     const x = Xray()
     x({
       title: 'title@text',
-      image: x('#gbar a@href', 'title'),
+      image: x('#gb a@href', 'title'),
       scoped_title: x('head', 'title'),
       inner: x('title', {
         title: '@text'
@@ -43,7 +43,7 @@ describe('Xray basics', function () {
       if (err) return done(err)
       try {
         expect(obj.title).to.be('Google', '{ title: title@text }')
-        expect(obj.image).to.be('Google Images')
+        expect(obj.image).to.be('Google')
         expect(obj.scoped_title).to.be('Google')
         expect(obj.inner.title).to.be('Google')
       } catch (err) {
