@@ -30,7 +30,7 @@ function getSessionResult () {
   const events = Array.prototype.slice.call(arguments)
   const stream = createStream()
   const helper = streamHelper.array(stream)
-  events.map(function (data, index) { helper(data, index === events.length - 1) })
+  events.forEach(function (data, index) { helper(data, index === events.length - 1) })
   while (stream._open) { /* wait for stream to close */ }
   return JSON.stringify(JSON.parse(stream._data))
 }

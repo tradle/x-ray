@@ -292,7 +292,7 @@ describe('Xray basics', function () {
       if (err) return done(err)
       expect(arr.length).to.not.be(0, 'array should have a length')
 
-      arr.map(function (item) {
+      arr.forEach(function (item) {
         expect(item.title.length).to.not.be(0)
         expect(isUrl(item.link)).to.be(true)
       })
