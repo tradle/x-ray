@@ -1,3 +1,10 @@
+<a name="3.0.1"></a>
+# @tradle/3.0.1 (2021-10-14)
+============================
+
+  * Fix: making sure that no dangling promise is returned by API
+  * Feat: allowing `.promise()` to be called to just get a promise (performance)
+
 <a name="3.0.0"></a>
 # @tradle/3.0.0 (2021-10-12)
 ============================
