@@ -33,7 +33,6 @@
   "dependencies": {
     "@tradle/x-ray-crawler": "^2.1.0",
     "batch": "~0.6.0",
-    "bluebird": "^3.4.7",
     "chalk": "^4.1.2",
     "cheerio": "~0.22.0",
     "debug": "^4.3.2",

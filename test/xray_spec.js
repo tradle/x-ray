@@ -492,7 +492,6 @@ describe('Xray basics', function () {
   })
 
   describe('.then(cb, err)', function () {
-    const noop = function () { }
     const html = '<ul class="tags"><li>a</li><li>b</li><li>c</li></ul><ul class="tags"><li>d</li><li>e</li></ul>'
     const expected = [['a', 'b', 'c'], ['d', 'e']]
     const $ = cheerio.load(html)
@@ -515,17 +514,36 @@ describe('Xray basics', function () {
     it('should Promisify and pass rejections to promise', function () {
       const resHandler = sinon.fake()
       const errorHandler = sinon.fake()
+      const rejections = []
 
-      const xray = x('https://127.0.0.1:666/', '.tags', [['li']])
-      process.once('unhandledRejection', noop)
-      const promise = xray.then(resHandler, errorHandler)
+      process.on('unhandledRejection', handleRejection)
+      const xray = x('https://127.0.0.1:666/', '.tags', [['li']]).then(resHandler, errorHandler)
 
-      return promise.then(function () {
-        process.removeListener('unhandledRejection', noop)
+      return xray.then(function () {
+        process.removeListener('unhandledRejection', handleRejection)
+        expect(rejections).to.eql([], 'no unhandled rejections')
         expect(resHandler.called).to.be(false, 'result handler never called')
         expect(errorHandler.calledOnce).to.be(true, 'error handler called once')
         expect(errorHandler.firstCall.args[0]).to.be.an(Error, 'called with error')
       })
+
+      function handleRejection (error) {
+        rejections.push(error)
+      }
+    })
+
+    it('should support async use', async function () {
+      expect(await x($, '.tags', [['li']])).to.eql(expected)
+    })
+
+    it('should support async errors', async function () {
+      try {
+        await x('https://127.0.0.1:666/', '.tags', [['li']])
+      } catch (err) {
+        expect(err.code).to.be('ECONNREFUSED')
+        return
+      }
+      throw new Error('error should be thrown')
     })
   })
 })
